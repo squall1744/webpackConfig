@@ -4,7 +4,6 @@ const commonConfig = require('./webpack.common');
 
 const devConfig = {
 	mode: 'development',
-
 	devtool: 'cheap-module-eval-source-map', //sourceMap
 
 	devServer: { //开发模式开启的代理服务器

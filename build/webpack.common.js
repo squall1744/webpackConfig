@@ -2,13 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const tsImportPluginFactory = require('ts-import-plugin')
 const webpack = require('webpack');
 
 const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   entry: {
-    main: './src/index.js',
+    main: './src/index.tsx',
   },
 
   output: {
@@ -69,6 +70,22 @@ module.exports = {
         use: {
           loader: 'file-loader'
         }
+      },
+      {
+        test: /\.tsx$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+            getCustomTransformers: () => ({
+              before: [ tsImportPluginFactory( /** options */) ]
+            }),
+            compilerOptions: {
+              module: 'es2015'
+            }
+          },
+        },
       }
     ]
   },
